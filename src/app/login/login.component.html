@@ -1,0 +1,49 @@
+<mat-card class="login-page">
+  <mat-card-title>Login</mat-card-title>
+  <mat-card-content>
+
+    <form class="login-form data-form" #loginForm="ngForm" appearance="outline" (ngSubmit)="login(loginForm, $event)">
+
+      <mat-form-field>
+
+        <input
+        ngModel
+        #email="ngModel" 
+        matInput type="email" name="email" required minlength="3" maxlength="20" email
+        placeholder="Email">
+        <mat-error *ngIf="email.errors?.required">The email is mandetory.</mat-error>
+      </mat-form-field>
+
+      <ng-container *ngIf="email.errors | onlyOneError:['minlength','email'] as error">
+        <div class="field-message" *ngIf="error.minlength">Your email have minimum {{error.minlength.requiredLength}}.
+          but it only has {{error.minlength.actualLength}}.
+        </div>
+         <div class="field-message" *ngIf="error.email">The email is not valid.</div>
+      </ng-container>
+
+      <mat-form-field>
+        <input ngModel #password="ngModel"
+        minlength="8"
+         matInput type="password" placeholder="Password" passwordStrength
+         name="password" required>
+        <mat-error *ngIf="password.errors?.required">The password is mandetory.</mat-error>
+      </mat-form-field>
+
+      <ng-container *ngIf="password.errors | onlyOneError:['minlength','passwordStrength'] as error">
+        <div class="field-message" *ngIf="error.minlength">Your password have minimum {{error.minlength.requiredLength}}.
+          but it only has {{error.minlength.actualLength}}.
+        </div>
+        <div class="field-message" *ngIf="error.passwordStrength">Password is not valid.Please use lower and upper and number.</div>
+      </ng-container>
+      
+      <button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid">
+        Login
+      </button>
+
+    </form>
+
+    <p>{{password.errors | json}}</p>
+    <p>{{email.value+' '+password.value}}</p>
+
+  </mat-card-content>
+</mat-card>
