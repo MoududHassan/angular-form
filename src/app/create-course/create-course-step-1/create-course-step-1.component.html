@@ -1,5 +1,6 @@
 <div [formGroup]="form">
     <mat-form-field appearance="outline">
+        <mat-label>Course title</mat-label>
         <input matInput  placeholder="Course title" formControlName="title" #title>
         <mat-hint align="start"><strong>Don't disclose personal info</strong> </mat-hint>
         <mat-hint align="end">
@@ -27,6 +28,7 @@
     </mat-checkbox>
 
     <mat-form-field appearance="outline">
+        <mat-label>Description</mat-label>
         <textarea matInput placeholder="Description" formControlName="longDescription"></textarea>
     </mat-form-field>
 
