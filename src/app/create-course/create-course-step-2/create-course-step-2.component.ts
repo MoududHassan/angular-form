@@ -18,7 +18,7 @@ export class CreateCourseStep2Component implements OnInit {
       Validators.required,
       Validators.max(9999),
       Validators.min(1),
-      Validators.pattern('[0-9+]')
+      Validators.pattern('[0-9]+')
     ]],
     promoStartAt:[null],
     promoEndAt:[null],

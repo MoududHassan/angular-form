@@ -13,6 +13,10 @@ import {noop, of} from 'rxjs';
     provide: NG_VALUE_ACCESSOR,
     multi: true,
     useExisting: FileUploadComponent
+  },{
+    provide: NG_VALIDATORS,
+    multi: true,
+    useExisting: FileUploadComponent
   }]
 })
 export class FileUploadComponent implements ControlValueAccessor, Validator{
@@ -22,8 +26,9 @@ export class FileUploadComponent implements ControlValueAccessor, Validator{
   fileName = '';
   fileUploadError = false;
   uploadProgress:number;
-  onChange:(fileName: string) => {};
-  onTouched:() => {};
+  onChange=(fileName: string) => {};
+  onTouched=() => {};
+  onValidatorChange=()=> {};
   disabled:boolean = false;
   fileUploadSuccess = false;
 
@@ -41,9 +46,11 @@ export class FileUploadComponent implements ControlValueAccessor, Validator{
     if(this.fileUploadError){
       errors.uploadFailed = true;
     }
+
+    return errors;
   }
-  registerOnValidatorChange?(fn: () => void): void {
-    throw new Error('Method not implemented.');
+  registerOnValidatorChange?(onValidatorChange: () => void) {
+    this.onValidatorChange = onValidatorChange;
   }
   writeValue(value: any) {
     this.fileName = value;
@@ -92,6 +99,7 @@ export class FileUploadComponent implements ControlValueAccessor, Validator{
         }else if(event.type == HttpEventType.Response){
           this.fileUploadSuccess = true;
           this.onChange(this.fileName);
+          this.onValidatorChange();
         }
       });
     }
